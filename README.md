@@ -26,6 +26,8 @@ Example.
     export KIKYO_DBUSER=kikyo
     export KIKYO_DBPASS=kiky0P@ss
 
+Or, modify the app.psgi to conform to your database.
+
 ## plackup
 
 Now, you can run Kikyo with plackup under Kikyo project directory.
@@ -108,10 +110,10 @@ ytnobody <ytnobody@gmail.com>
 
 Hey! **The above document had some coding errors, which are explained below:**
 
-- Around line 159:
+- Around line 161:
 
     Unknown directive: =over4
 
-- Around line 161:
+- Around line 163:
 
     '=item' outside of any '=over'

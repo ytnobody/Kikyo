@@ -124,6 +124,8 @@ Example.
     export KIKYO_DBUSER=kikyo
     export KIKYO_DBPASS=kiky0P@ss
 
+Or, modify the app.psgi to conform to your database.
+
 =head2 plackup
 
 Now, you can run Kikyo with plackup under Kikyo project directory.

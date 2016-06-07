@@ -22,9 +22,9 @@ sub db () {
 
 get '/v1/rack/:rack' => sub {
     my ($app, $req) = @_;
-    my %rows = (map {$_->{unit} => $_} db->select(host => {rack => $req->captured->{rack}}));
+    my $rack = $req->captured->{rack};
     {
-        rows => [reverse map {$rows{$_}} 1..42]
+        rows => [__PACKAGE__->rackinfo($rack)],
     };
 };
 
@@ -111,6 +111,18 @@ sub is_corride {
     for my $i (@range) {
         return 1 if grep {$_ == $i} @filled;
     }
+}
+
+use Data::Dumper;
+sub rackinfo {
+    my ($class, $rack) = @_;
+    my %item = (map {$_->{unit} => $_} db->select(host => {rack => $rack}));
+    my @rows = map {$item{$_}} 1..42;
+     for my $row (grep {defined $_} @rows) {
+         my @range = $class->host_unit_range($row);
+         $rows[$_-1] = $row for @range;
+     }
+    reverse @rows;
 }
 
 1;

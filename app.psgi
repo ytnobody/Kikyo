@@ -1,6 +1,11 @@
 use strict;
 use warnings;
-use lib qw(lib);
+use File::Spec;
+use File::Basename 'dirname';
+use lib (
+    File::Spec->catdir(dirname(__FILE__), qw/lib/),
+    glob(File::Spec->catdir(dirname(__FILE__), qw/modules * lib/)),
+);
 use Plack::Builder;
 use Kikyo;
 

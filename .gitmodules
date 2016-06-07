@@ -1,0 +1,3 @@
+[submodule "modules/amagi"]
+	path = modules/amagi
+	url = https://github.com/colon-limited/p5-Amagi

@@ -52,6 +52,17 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/ytnobody/Kikyo/issues"
+      },
+      "homepage" : "https://github.com/ytnobody/Kikyo",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/ytnobody/Kikyo.git",
+         "web" : "https://github.com/ytnobody/Kikyo"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:YTURTLE"
 }

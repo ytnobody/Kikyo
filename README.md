@@ -98,7 +98,7 @@ it under the same terms as Perl itself.
 
 # SEE ALSO
 
-[lt](https://metacpan.org/pod/lt)https://github.com/ytnobody/kikyo-agent[gt](https://metacpan.org/pod/gt)
+https://github.com/ytnobody/kikyo-agent
 
 # AUTHOR
 

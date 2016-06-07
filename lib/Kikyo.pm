@@ -209,7 +209,7 @@ it under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-L<lt>https://github.com/ytnobody/kikyo-agentL<gt>
+https://github.com/ytnobody/kikyo-agent
 
 =head1 AUTHOR
 

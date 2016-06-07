@@ -52,11 +52,16 @@ post '/v1/rack/:rack/:unit' => sub {
     my $input = $req->json_content or return $app->res_error(400 => 'Bad Request');
     my $now = localtime->strftime('%Y-%m-%d %H:%M:%S');
     my $id = delete $input->{id};
+    my $in_host;
     if ($id) {
-        db->update(host => {%$input, %{$req->captured}}, {id => $id});
+        $in_host = {%$input, %{$req->captured}};
+        return $app->res_error(400 => 'racking target is corride') if __PACKAGE__->is_corride({%$in_host, id => $id});
+        db->update(host => $in_host, {id => $id});
     }
     else {
-        db->insert(host => {%$input, %{$req->captured}, create_at => $now});
+        $in_host = {%$input, %{$req->captured}, create_at => $now};
+        return $app->res_error(400, 'racking target is corride') if __PACKAGE__->is_corride($in_host);
+        db->insert(host => $in_host);
         $id = db->last_insert_id;
     }
     my $host = db->single(host => {id => $id});
@@ -81,8 +86,31 @@ sub search_query {
 sub recast_host_fields {
     my ($class, $host) = @_;
     my $rtn = {%$host};
-    $rtn->{$_} = $rtn->{$_} +0 for qw/id unit/;
+    $rtn->{$_} = $rtn->{$_} +0 for qw/id unit size/;
     return $rtn;
+}
+
+sub host_unit_range {
+    my ($class, $host) = @_;
+    my $rack = $host->{rack};
+    my $unit = $host->{unit};
+    my $size = $host->{size} || 1;
+    my $unitend = $unit + $size - 1;
+    return ($unit .. $unitend);
+}
+
+sub is_corride {
+    my ($class, $host) = @_;
+    my $query = $host->{id} ? 
+        {rack => $host->{rack}, id => {'!=' => $host->{id}}} : 
+        {rack => $host->{rack}}
+    ;
+    my @rows = db->select(host => $query);
+    my @filled = map {$class->host_unit_range($_)} @rows;
+    my @range = $class->host_unit_range($host);
+    for my $i (@range) {
+        return 1 if grep {$_ == $i} @filled;
+    }
 }
 
 1;

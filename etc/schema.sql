@@ -4,6 +4,7 @@ CREATE TABLE host (
     name      varchar(64) not null unique,
     rack      varchar(32) not null,
     unit      int unsigned not null,
+    size      int unsigned not null default 1,
     cpu       varchar(64),
     memory    varchar(32),
     disk      varchar(32),

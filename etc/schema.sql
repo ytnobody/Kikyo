@@ -1,0 +1,28 @@
+DROP TABLE IF EXISTS host;
+CREATE TABLE host (
+    id        int unsigned not null auto_increment primary key,
+    name      varchar(64) not null unique,
+    rack      varchar(32) not null,
+    unit      int unsigned not null,
+    cpu       varchar(64),
+    memory    varchar(32),
+    disk      varchar(32),
+    os        varchar(64),
+    hwid      varchar(32),
+    modelname varchar(64),
+    ip        varchar(255),
+    note      text,
+    status    enum('in_service','standby','stopped') default 'in_service',
+    create_at datetime,
+    update_at timestamp,
+    unique (rack, unit),
+    index (name),
+    index (rack),
+    index (os),
+    index (hwid),
+    index (modelname),
+    index (ip),
+    index (status),
+    index (create_at),
+    index (update_at)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

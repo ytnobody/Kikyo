@@ -158,7 +158,7 @@ Returns hosts list that matched for search query.
 
 Available search parameters is following.
 
-=over4
+=over 4
 
 =item id
 

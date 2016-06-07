@@ -105,15 +105,3 @@ https://github.com/ytnobody/kikyo-agent
 # AUTHOR
 
 ytnobody <ytnobody@gmail.com>
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 161:
-
-    Unknown directive: =over4
-
-- Around line 163:
-
-    '=item' outside of any '=over'

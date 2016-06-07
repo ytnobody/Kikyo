@@ -20,6 +20,11 @@ sub db () {
     $DBC->[1];
 }
 
+get '/' => sub {
+    my ($app, $req) = @_;
+    $app->redirect('/app/index.html');
+};
+
 get '/v1/rack/:rack' => sub {
     my ($app, $req) = @_;
     my $rack = $req->captured->{rack};
@@ -73,12 +78,15 @@ sub search_query {
     my $query = +{ map {$_ => $params->{$_}} grep {defined $params->{$_}} qw/id ip name rack hwid os modelname status/ };
     my $key;
     for $key (qw/ip name os modelname/) {
-        next unless defined $query->{$key};
+        next unless $query->{$key};
         $query->{$key} = {LIKE => sprintf "%%%s%%", $query->{$key}};
     }
     for $key (qw/rack/) {
-        next unless defined $query->{$key};
+        next unless $query->{$key};
         $query->{$key} = {LIKE => sprintf "%s%%", $query->{$key}};
+    }
+    for $key (keys %$query) {
+        delete $query->{$key} if !$query->{$key};
     }
     return $query;
 }
@@ -113,7 +121,6 @@ sub is_corride {
     }
 }
 
-use Data::Dumper;
 sub rackinfo {
     my ($class, $rack) = @_;
     my %item = (map {$_->{unit} => $_} db->select(host => {rack => $rack}));

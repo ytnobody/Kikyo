@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kikyo - Information Base for Server Assets</title>
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="/app/index.html">Racklist</a></li>
+          <li><a href="/app/search.html">Search</a></li>
+        </ul>
+        <h3 class="text-muted">Kikyo</h3>
+      </div>
+
+      <div class="row">
+        <h1>Host Search</h1>
+        <form class="hostSearchForm" action="/app/search.html" method="GET">
+        <table class="table table-bordered">
+          <tr>
+            <td>HostID: <input type="text" name="id" size="18"></td>
+            <td>Name: <input type="text" name="name" size="24"></td>
+          </tr>
+          <tr>
+            <td>HWID: <input type="text" name="hwid" size="18"></td>
+            <td>Rack: <input type="text" name="rack" size="24"></td>
+          </tr>
+          <tr>
+            <td>IP: <input type="text" name="ip" size="18"></td>
+            <td>OS: <input type="text" name="os" size="24"></td>
+          </tr>
+          <tr>
+            <td>Status: <input type="text" name="status" size="18"></td>
+            <td>ModelName: <input type="text" name="ModelName" size="24"></td>
+          </tr>
+        </table>
+        <div style="text-align:center;"><input type="submit" class="btn btn-info" value="search"></div>
+        </form>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <table class="table table-bordered result"></table>
+      </div>
+
+      <div class="footer">
+        <p>Colon Infra team</p>
+      </div>
+    </div>
+    
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    
+    <!-- build:js scripts/plugins.js -->
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+    <!-- endbuild -->
+    
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/param.js"></script>
+    <script src="scripts/kikyo/search.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>

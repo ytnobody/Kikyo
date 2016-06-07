@@ -1,5 +1,14 @@
 use strict;
 use warnings;
+
+### DB Configuration : Please change here. =====
+BEGIN {
+    $ENV{KIKYO_DSN} = 'dbi:mysql:kikyo';
+    $ENV{KIKYO_DBUSER} = 'root';
+    $ENV{KIKYO_DBPASS} = '';
+};
+### ============================================
+
 use File::Spec;
 use File::Basename 'dirname';
 use lib (
@@ -9,12 +18,7 @@ use lib (
 use Plack::Builder;
 use Kikyo;
 
-BEGIN {
-    $ENV{KIKYO_DSN} = 'dbi:mysql:kikyo';
-    $ENV{KIKYO_DBUSER} = 'root';
-    $ENV{KIKYO_DBPASS} = '';
-};
-
 builder {
+    enable "Static", path => qr{^/(app|bower_components)/}, root => './dashboard/';
     Kikyo->app;
 };

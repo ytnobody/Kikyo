@@ -11,3 +11,11 @@ function setParam () {
     }
     location.paramObject = arg;
 };
+
+function fillInForm (params, elem) {
+    $.each(params, function(k, v){
+        if (elem[k]) {
+            elem[k].value = v;
+        }
+    });
+}

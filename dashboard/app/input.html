@@ -37,9 +37,41 @@
         <h3 class="text-muted">Kikyo</h3>
       </div>
 
-      <div>
-        <h1>Rack List</h1>
-        <table class="table table-bordered racklist"></table>
+      <div class="row">
+        <h1>Host</h1>
+        <form class="hostForm" action="#" method="POST">
+        <table class="table table-bordered">
+          <input type="hidden" name="id">
+          <tr><th>Name</th><td><input type="text" name="name" size="24" required></td></tr>
+          <tr><th>HWID</th><td><input type="text" name="hwid" size="18"></td></tr>
+          <tr><th>ModelName</th><td><input type="text" name="modelname" size="64"></td></tr>
+          <tr><th>Rack</th><td><input type="text" name="rack" size="18" required></td></tr>
+          <tr><th>Unit</th><td><input type="number" name="unit" size="4" min=1 max=1000 required></td></tr>
+          <tr><th>Size</th><td><input type="number" name="size" size="4" min=1 max=10></td></tr>
+          <tr><th>CPU</th><td><input type="text" name="cpu" size="64"></td></tr>
+          <tr><th>Memory</th><td><input type="text" name="memory" size="18"></td></tr>
+          <tr><th>Disk</th><td><input type="text" name="disk" size="18"></td></tr>
+          <tr><th>OS</th><td><input type="text" name="os" size="24"></td></tr>
+          <tr><th>IP</th><td><input type="text" name="ip" size="64"></td></tr>
+          <tr>
+            <th>Status</th>
+            <td>
+              <select name="status">
+                <option value="in_service">In Service</option>
+                <option value="standby">Standby</option>
+                <option value="stopped">Stopped</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <b>Note</b><br>
+              <textarea rows=6 cols=90 name="note"></textarea>
+            </td>
+          </tr>
+        </table>
+        <div style="text-align:center; margin-bottom: 10px;"><input type="submit" class="btn btn-info" value="submit"></div>
+        </form>
       </div>
 
       <div class="footer">
@@ -70,7 +102,7 @@
     
     <!-- build:js scripts/main.js -->
     <script src="scripts/param.js"></script>
-    <script src="scripts/kikyo/racklist.js"></script>
+    <script src="scripts/kikyo/input.js"></script>
     <!-- endbuild -->
   </body>
 </html>

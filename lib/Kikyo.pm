@@ -60,12 +60,12 @@ post '/v1/rack/:rack/:unit' => sub {
     my $in_host;
     if ($id) {
         $in_host = {%$input, %{$req->captured}};
-        return $app->res_error(400 => 'racking target is corride') if __PACKAGE__->is_corride({%$in_host, id => $id});
+        return $app->res_error(400 => 'racking target is collide') if __PACKAGE__->is_corride({%$in_host, id => $id});
         db->update(host => $in_host, {id => $id});
     }
     else {
         $in_host = {%$input, %{$req->captured}, create_at => $now};
-        return $app->res_error(400, 'racking target is corride') if __PACKAGE__->is_corride($in_host);
+        return $app->res_error(400, 'racking target is collide') if __PACKAGE__->is_corride($in_host);
         db->insert(host => $in_host);
         $id = db->last_insert_id;
     }

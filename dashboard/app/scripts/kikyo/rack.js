@@ -8,17 +8,18 @@ function rackOverview (unitID, row) {
         return $(
             '<tr class="unit" id="unit:'+ unitID +'">'+
               '<td class="unitID">'+unitID+'</td>'+
-              '<td class="item name"><a href="/app/search.html?name='+row.name+'">'+row.name+'</a></td>'+
+              '<td class="item name"><a href="/app/input.html?id='+row.id+'">'+row.name+'</a></td>'+
+              '<td class="item status">'+row.status+'</td>'+
               '<td class="item ip">'+row.ip+'</td>'+
             '</tr>'
         );
     } else {
-        return $('<tr class="unit" id="unit:'+ unitID +'"><td class="unitID">'+unitID+'</td><td class="name">-</td><td class="ip">-</td></tr>');
+        return $('<tr class="unit" id="unit:'+ unitID +'"><td class="unitID">'+unitID+'</td><td class="name">-</td><td class="status">-</td><td class="ip">-</td></tr>');
     }
 }
 
 function getRack (elem, rackname) {
-    elem.html("<tr><th>UnitID</th><th>Name</th><th>IP</th></tr>");
+    elem.html("<tr><th>UnitID</th><th>Name</th><th>Status</th><th>IP</th></tr>");
     $.get("/v1/rack/"+rackname, function(data){
         $.each(data.rows, function(i, val) {
             elem.append(rackOverview(42-i, val));

@@ -36,13 +36,16 @@ get '/v1/rack/:rack' => sub {
 get '/v1/host/:id' => sub {
     my ($app, $req) = @_;
     my $host = db->single(host => {id => $req->captured->{id}});
+    $host->{virtual_hosts} = [__PACKAGE__->virtual_hosts($host)] if $host->{virtual_id} == 0;
     { host => $host };
 };
 
 get '/v1/racklist' => sub {
     my ($app, $req) = @_;
     { 
-        rows => [map {$_->{hosts} += 0; $_} db->search_by_sql('SELECT rack, COUNT(unit) AS hosts FROM host GROUP BY rack ORDER BY rack')]
+        rows => [map {$_->{hosts} += 0; $_} db->search_by_sql(
+            'SELECT rack, COUNT(unit) AS hosts FROM host WHERE virtual_id=0 GROUP BY rack ORDER BY rack'
+        )]
     }
 };
 
@@ -61,7 +64,18 @@ post '/v1/rack/:rack/:unit' => sub {
     if ($id) {
         $in_host = {%$input, %{$req->captured}};
         return $app->res_error(400 => 'racking target is collide') if __PACKAGE__->is_corride({%$in_host, id => $id});
-        db->update(host => $in_host, {id => $id});
+        my $old = db->select(host => {id => $id});
+        do {
+            my $txn = db->txn_scope;
+            if ($old->{virtual_id} == 0) {
+                db->update(host => 
+                    {rack => $in_host->{rack}, unit => $in_host->{unit}},
+                    {rack => $old->{rack}, unit => $old->{unit}, virtual_id => {'!=' => 0}}
+                );
+            }
+            db->update(host => $in_host, {id => $id});
+            $txn->commit;
+        };
     }
     else {
         $in_host = {%$input, %{$req->captured}, create_at => $now};
@@ -110,8 +124,8 @@ sub host_unit_range {
 sub is_corride {
     my ($class, $host) = @_;
     my $query = $host->{id} ? 
-        {rack => $host->{rack}, id => {'!=' => $host->{id}}} : 
-        {rack => $host->{rack}}
+        {rack => $host->{rack}, virtual_id => $host->{virtual_id}, id => {'!=' => $host->{id}}} : 
+        {rack => $host->{rack}, virtual_id => $host->{virtual_id}}
     ;
     my @rows = db->select(host => $query);
     my @filled = map {$class->host_unit_range($_)} @rows;
@@ -123,13 +137,19 @@ sub is_corride {
 
 sub rackinfo {
     my ($class, $rack) = @_;
-    my %item = (map {$_->{unit} => $_} db->select(host => {rack => $rack}));
+    my %item = (map {$_->{unit} => $_} map {$_->{virtual_hosts} = [$class->virtual_hosts($_)]; $_} db->select(host => {rack => $rack, virtual_id => 0}));
     my @rows = map {$item{$_}} 1..42;
-     for my $row (grep {defined $_} @rows) {
-         my @range = $class->host_unit_range($row);
-         $rows[$_-1] = $row for @range;
-     }
+    for my $row (grep {defined $_} @rows) {
+        my @range = $class->host_unit_range($row);
+        $rows[$_-1] = $row for @range;
+    }
     reverse @rows;
+}
+
+sub virtual_hosts {
+    my ($class, $host) = @_;
+    my @rows = db->select(host => {rack => $host->{rack}, unit => $host->{unit}, virtual_id => {'!=' => 0}});
+    return @rows;
 }
 
 1;

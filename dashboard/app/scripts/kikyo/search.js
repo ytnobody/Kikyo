@@ -6,9 +6,10 @@ $(document).ready(function(){
 });
 
 function hostOverview (row) {
+    var isVirtual = row.virtual_id > 0 ? '<span class="label label-success">Virtual</span>' : '';
     return $(
         '<tr class="hostOverview">'+
-          '<td class="item name">'+row.name+'</td>'+
+          '<td class="item name"><a href="/app/input.html?id='+row.id+'">'+row.name + isVirtual+'</a></td>'+
           '<td class="item rack">'+row.rack+' / '+row.unit+' / '+row.size+'</td>'+
           '<td class="item hwid">'+row.hwid+'</td>'+
           '<td class="item status">'+row.status+'</td>'+

@@ -3,9 +3,9 @@ use warnings;
 
 ### DB Configuration : Please change here. =====
 BEGIN {
-    $ENV{KIKYO_DSN} = 'dbi:mysql:kikyo';
-    $ENV{KIKYO_DBUSER} = 'root';
-    $ENV{KIKYO_DBPASS} = '';
+    $ENV{KIKYO_DSN} ||= 'dbi:mysql:kikyo';
+    $ENV{KIKYO_DBUSER} ||= 'root';
+    $ENV{KIKYO_DBPASS} ||= '';
 };
 ### ============================================
 
